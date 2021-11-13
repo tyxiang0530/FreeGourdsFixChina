@@ -12,18 +12,43 @@ options(digits=5, pillar.sigfig = 7)
 ```{r}
 # libraries
 
-library(googlesheets4)
+library(RCurl)
+library(stringr)
+library(dplyr)
 ```
 
 
 ```{r}
-test <- read.csv(file = 'C:/Users/gtham/Downloads/API_CHN_DS2_en_csv_v2_3159698.csv')
+CHN_rand <- read.csv("https://raw.githubusercontent.com/tyxiang0530/FreeGourdsFixChina/main/Data/API_CHN_1960_2005_random.csv")
 ```
 
 ```{r}
-test$Indicator.Name
+CHN_rand$indicator <- str_replace_all(paste("i", seq.int(nrow(CHN_rand))), fixed(" "), "")
 ```
 
+```{r}
+x <- CHN_rand %>%
+  select(Country.Name, Country.Code)
+
+y <- CHN_rand %>%
+  select(-c(Country.Name, Country.Code, indicator))
+
+z <- CHN_rand %>%
+  select(indicator)
+```
+
+```{r}
+CHN_rand_clean <- cbind(x, z, y)
+
+CHN_rand_clean <- CHN_rand_clean %>%
+  rename(Indicator.Description = Indicator.Name) %>%
+  select(-Indicator.Code) %>%
+  rename(Indicator.Code = indicator)
+```
+
+```{r}
+head(CHN_rand)
+```
 
 
 
