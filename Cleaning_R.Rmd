@@ -15,18 +15,23 @@ options(digits=5, pillar.sigfig = 7)
 library(RCurl)
 library(stringr)
 library(dplyr)
+library(tidyverse)
 ```
 
+## API_CHN dataset cleaning
 
 ```{r}
+#read API_CHN dataset
+
 CHN_rand <- read.csv("https://raw.githubusercontent.com/tyxiang0530/FreeGourdsFixChina/main/Data/API_CHN_1960_2005_random.csv")
 ```
 
 ```{r}
-CHN_rand$indicator <- str_replace_all(paste("i", seq.int(nrow(CHN_rand))), fixed(" "), "")
-```
 
-```{r}
+#indicator id
+CHN_rand$indicator <- str_replace_all(paste("i", seq.int(nrow(CHN_rand))), fixed(" "), "")
+
+#rearrange cololumns
 x <- CHN_rand %>%
   select(Country.Name, Country.Code)
 
@@ -35,20 +40,53 @@ y <- CHN_rand %>%
 
 z <- CHN_rand %>%
   select(indicator)
-```
 
-```{r}
+#bind columns in right order
 CHN_rand_clean <- cbind(x, z, y)
 
+#rename columns
 CHN_rand_clean <- CHN_rand_clean %>%
   rename(Indicator.Description = Indicator.Name) %>%
   select(-Indicator.Code) %>%
   rename(Indicator.Code = indicator)
+
+#write new clean file
+
+write.csv(CHN_rand_clean, "C:/Users/gtham/OneDrive - Pomona College/2021 Fall/Berkeley_Datathon/FreeGourdsFixChina/Data/API_CHN_1960_2005_misc_clean.csv")
+```
+
+## Agriculture Dataset cleaning
+
+```{r}
+ap <- read.csv("https://raw.githubusercontent.com/tyxiang0530/FreeGourdsFixChina/main/Data/provincial_data.csv")
 ```
 
 ```{r}
-head(CHN_rand)
+ap_modified <- ap %>%
+  filter(commodity_desc == "Aquatic products") %>%
+  filter(geography_desc == "Anhui") %>%
+  arrange(year_desc)
 ```
+
+```{r}
+agri <- read.csv("https://raw.githubusercontent.com/tyxiang0530/FreeGourdsFixChina/main/Data/qryexcelfiles.csv")
+```
+
+```{r}
+agri_modified <- agri %>%
+  filter(commodity_desc == "apples")
+```
+
+```{r}
+ap_modified %>%
+  ggplot(aes(x = year_desc, y = amount)) +
+  geom_point()
+```
+
+
+
+
+
 
 
 
