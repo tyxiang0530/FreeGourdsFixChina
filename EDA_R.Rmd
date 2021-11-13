@@ -1,0 +1,29 @@
+---
+title: "EDA"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE, cache=TRUE, 
+                      fig.width=4, fig.height=4, fig.align = "center")
+options(digits=5, pillar.sigfig = 7)
+```
+
+```{r}
+# libraries
+
+library(googlesheets4)
+```
+
+
+```{r}
+test <- read.csv(file = 'C:/Users/gtham/Downloads/API_CHN_DS2_en_csv_v2_3159698.csv')
+```
+
+```{r}
+test$Indicator.Name
+```
+
+
+
+
