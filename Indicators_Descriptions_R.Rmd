@@ -1,0 +1,48 @@
+---
+title: "Indicator_Descriptions"
+output:
+  html_document: default
+  pdf_document: default
+---
+---
+title: "EDA"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE, cache=TRUE, 
+                      fig.width=4, fig.height=4, fig.align = "center")
+options(digits=5, pillar.sigfig = 7)
+```
+
+```{r}
+# libraries
+
+library(RCurl)
+library(stringr)
+library(dplyr)
+library(tidyverse)
+library(gridExtra)
+```
+
+```{r}
+CHN <- read.csv("https://raw.githubusercontent.com/tyxiang0530/FreeGourdsFixChina/main/Data/clean/API_CHN_1960_2005_misc_clean.csv")
+```
+
+```{r}
+CHN_indicators <- CHN %>%
+  select(Indicator.Description)
+```
+
+```{r}
+str <- CHN$Indicator.Description
+```
+
+```{r}
+str
+```
+
+
+
+
+
